@@ -1,37 +1,82 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Catalyst FileHub</title>
-  <link rel="stylesheet" href="./main.css" />
+  <title>FileHub</title>
+
+  <!-- MUST match Catalyst console snippet -->
+  <script src="https://static.zohocdn.com/catalyst/sdk/js/4.5.0/catalystWebSDK.js"></script>
+  <script src="/__catalyst/sdk/init.js"></script>
+
+  <style>
+    body{font-family:Arial, sans-serif; margin:0; background:#f6f7f9;}
+    header{padding:14px 18px; background:#fff; border-bottom:1px solid #e5e7eb;}
+    .container{padding:18px; display:grid; gap:16px;}
+    .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px;}
+    .hidden{display:none!important;}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    button{padding:10px 14px; border:1px solid #d1d5db; border-radius:10px; background:#fff; cursor:pointer;}
+    button:hover{background:#f9fafb;}
+    .dropzone{border:2px dashed #9ca3af; border-radius:12px; padding:22px; text-align:center; background:#fafafa;}
+    .dropzone.dragover{border-color:#111827; background:#f3f4f6;}
+    pre{background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow:auto; min-height:90px;}
+    .muted{color:#6b7280}
+  </style>
 </head>
 
 <body>
-  <header class="topbar">
-    <h1>FileHub (Catalyst)</h1>
-    <button id="refreshBtn">Refresh API Data</button>
+  <header>
+    <div class="row" style="justify-content:space-between;">
+      <h2 style="margin:0;">FileHub</h2>
+      <div class="row">
+        <span id="userLabel" class="muted"></span>
+        <button id="signOutBtn" class="hidden">Sign out</button>
+      </div>
+    </div>
   </header>
 
-  <main class="grid">
-    <section class="card">
-      <h2>Upload files</h2>
+  <div class="container">
 
-      <div id="dropzone" class="dropzone">
+    <!-- AUTH -->
+    <section id="authSection" class="card">
+      <h3 style="margin:0 0 8px 0;">Sign in</h3>
+
+      <p class="muted" style="margin-top:0;">
+        If the login box stays blank, allow third-party cookies for this site or try Incognito.
+      </p>
+
+      <!-- MUST match console snippet ID -->
+      <div id="loginDivElementId"
+           style="min-height:520px; border:1px dashed #cbd5e1; border-radius:10px; padding:12px;">
+        <div class="muted" style="text-align:center; padding-top:220px;">
+          Login will appear here…
+        </div>
+      </div>
+
+      <pre id="authStatus">Initializing…</pre>
+    </section>
+
+    <!-- APP -->
+    <section id="appSection" class="card hidden">
+      <div class="row" style="justify-content:space-between;">
+        <h3 style="margin:0;">Upload files</h3>
+        <button id="refreshBtn">Refresh API</button>
+      </div>
+
+      <div id="dropzone" class="dropzone" style="margin-top:12px;">
         <p><strong>Drag & drop</strong> files here</p>
         <p class="muted">or</p>
         <input id="fileInput" type="file" multiple />
       </div>
 
-      <pre id="uploadStatus" class="pre"></pre>
+      <pre id="uploadStatus" style="margin-top:12px;">Ready.</pre>
+
+      <h3 style="margin-top:16px;">API data</h3>
+      <pre id="apiOutput">Waiting…</pre>
     </section>
 
-    <section class="card">
-      <h2>API data (Python → Data Store)</h2>
-      <p class="muted">Latest records from Uploads table.</p>
-      <pre id="apiOutput" class="pre"></pre>
-    </section>
-  </main>
+  </div>
 
   <script src="./main.js"></script>
 </body>
